@@ -1,0 +1,12 @@
+@font-face {
+    font-family: xfiles;
+    src: url(x-files-webfont.woff2);
+}
+
+h1 {
+    font-family: xfiles;
+}
+
+.main-box {
+    border: solid 1px black;
+}
