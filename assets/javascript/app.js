@@ -59,7 +59,6 @@ var timerId = setInterval(countdown, 1000);
 function countdown() {
     if (timeLeft === 0) {
         clearTimeout(timerId);
-        alert("time's up!");
         scoreQuiz();
     }
     else {
@@ -120,15 +119,21 @@ function scoreQuiz() {
             rightAnswers++;
             
         }
-        else {
+        else if (e != questions[index].correctAnswer) {
             wrongAnswers++;
-            
+        }
+        else {
+            unAnswered++;
         }
     })
     console.log(wrongAnswers);
     console.log(rightAnswers);
-    $(".wins").text("Right answers: " + rightAnswers);
-    $(".losses").text("Wrong answers: " + wrongAnswers);
+    $(".timer").empty();
+    $("#quiz").html(`
+    <div class = "wins">Right Answers: ${rightAnswers}</div>
+    <div class = "losses">Wrong Answers: ${wrongAnswers}</div>
+    `);
+    
 
 }
 
