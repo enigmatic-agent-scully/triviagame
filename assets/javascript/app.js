@@ -46,18 +46,28 @@ const questions = [
     }
 ];
 const quizContainer = document.getElementById("quiz");
-const questionContainer = document.getElementById("question");
 const submitButton = document.getElementById("submit");
+const timer = document.getElementById("timer");
 var answerKey = [];
 var userAnswers = [];
 var rightAnswers = 0;
 var wrongAnswers = 0;
 var unAnswered = 0;
+var timeLeft = 10;
+var timerId = setInterval(countdown, 1000);
 
-function addSubmitButton() {
-    var submitDiv = document.createElement(input);
-    document.getElementsByName("input");
+function countdown() {
+    if (timeLeft === 0) {
+        clearTimeout(timerId);
+        alert("time's up!");
+        scoreQuiz();
+    }
+    else {
+        $(".timer").text(timeLeft + ' seconds remaining');
+        timeLeft--;
+    }
 }
+countdown();
 
 function displayQuestions() {
     const output = [];
@@ -69,7 +79,7 @@ function displayQuestions() {
             for (letter in currentQuestion.answers) {
                 answers.push(
                     `<label>
-                <input type = "radio" name="question${questionNumber}" value="${letter}">
+                <input type = "radio" class = "buttons" name="question${questionNumber}" value="${letter}">
                 ${letter}: 
                 ${currentQuestion.answers[letter]}
                 </label>`
@@ -83,27 +93,43 @@ function displayQuestions() {
             );
         }
     )
-    quizContainer.innerHTML = output.join('');
+    quizContainer.innerHTML = `<form id = "myForm>${output.join('')}<input type="submit" id="submit">`;
 }
 displayQuestions();
 
+$(".buttons").click(function() {
+    
+    if (userAnswers.length > 4) {
+        alert("You've answered all the questions!")
+    }
+    else {
+        userAnswers.push($(this).val());
+        console.log(userAnswers);
+    }
+})
 
-document.getElementById("myForm").onsubmit = scoreQuiz();
+$("#submit").click(function () {
+    scoreQuiz();
+});
 
 function scoreQuiz() {
-    questions.forEach(
-        (currentQuestion, questionNumber) => {
-            if (document.getElementsByName(((`"question${questionNumber}"`).value)) === `${currentQuestion.correctAnswer}`) {
-                console.log("Correct!");
-                console.log(`${currentQuestion.correctAnswer}`)
-            }
-            else {
-                console.log("Nope");
-            }
-
+    clearTimeout(timerId);
+    userAnswers.forEach(
+        (e, index) => {
+        if (e === questions[index].correctAnswer) {
+            rightAnswers++;
+            
         }
-    )
-}
+        else {
+            wrongAnswers++;
+            
+        }
+    })
+    console.log(wrongAnswers);
+    console.log(rightAnswers);
+    $(".wins").text("Right answers: " + rightAnswers);
+    $(".losses").text("Wrong answers: " + wrongAnswers);
 
+}
 
 
