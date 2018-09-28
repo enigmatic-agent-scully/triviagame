@@ -53,7 +53,7 @@ var userAnswers = [];
 var rightAnswers = 0;
 var wrongAnswers = 0;
 var unAnswered = 0;
-var timeLeft = 10;
+var timeLeft = 100000;
 var timerId = setInterval(countdown, 1000);
 
 function countdown() {
@@ -62,7 +62,7 @@ function countdown() {
         scoreQuiz();
     }
     else {
-        $(".timer").text(timeLeft + ' seconds remaining');
+        $(".timer").text(timeLeft + ' secs remaining');
         timeLeft--;
     }
 }
@@ -81,18 +81,21 @@ function displayQuestions() {
                 <input type = "radio" class = "buttons" name="question${questionNumber}" value="${letter}">
                 ${letter}: 
                 ${currentQuestion.answers[letter]}
-                </label>`
+                </label>
+                <br>`
                 )
             }
             output.push(
                 `<form id="myForm">
+                <br>
             <div class="question">${currentQuestion.question}</div>
+            <br>
             <div class="answers"> ${answers.join("")} </div>
             </form>`
             );
         }
     )
-    quizContainer.innerHTML = `<form id = "myForm>${output.join('')}<input type="submit" id="submit">`;
+    quizContainer.innerHTML = `<form id = "myForm>${output.join('')}<br><input type="submit" id="submit">`;
 }
 displayQuestions();
 
@@ -122,7 +125,7 @@ function scoreQuiz() {
         else if (e != questions[index].correctAnswer) {
             wrongAnswers++;
         }
-        else {
+        else if (e === "") {
             unAnswered++;
         }
     })
@@ -132,6 +135,7 @@ function scoreQuiz() {
     $("#quiz").html(`
     <div class = "wins">Right Answers: ${rightAnswers}</div>
     <div class = "losses">Wrong Answers: ${wrongAnswers}</div>
+    <div class = "losses">Unanswered: ${unAnswered}</div>
     `);
     
 
