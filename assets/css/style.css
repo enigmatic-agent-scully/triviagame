@@ -1,11 +1,13 @@
 @font-face {
     font-family: xfiles;
     src: url(x-files-webfont.woff2);
+    
 }
 
 h1 {
     font-family: xfiles;
     text-align: center;
+    text-shadow: 3em;
 }
 
 .timer {
@@ -19,4 +21,8 @@ h1 {
     background-color: black;
     color: white;
     font-family: monospace;
+}
+.buttons {
+    opacity: 100;
+    color: white;
 }

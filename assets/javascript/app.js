@@ -48,7 +48,6 @@ const questions = [
 const quizContainer = document.getElementById("quiz");
 const submitButton = document.getElementById("submit");
 const timer = document.getElementById("timer");
-var answerKey = [];
 var userAnswers = [];
 var rightAnswers = 0;
 var wrongAnswers = 0;
@@ -70,6 +69,9 @@ countdown();
 
 function displayQuestions() {
     const output = [];
+    rightAnswers = 0;
+    wrongAnswers = 0;
+    unAnswered = 0;
 
     questions.forEach(
         (currentQuestion, questionNumber) => {
@@ -77,30 +79,33 @@ function displayQuestions() {
 
             for (letter in currentQuestion.answers) {
                 answers.push(
-                    `<label>
-                <input type = "radio" class = "buttons" name="question${questionNumber}" value="${letter}">
-                ${letter}: 
-                ${currentQuestion.answers[letter]}
+                    `<label for="${questionNumber}.${letter}">
+                <input type = "radio" id="${questionNumber}.${letter}" class = "buttons" name="question${questionNumber}" value="${letter}"/>
+                <span>
+                ${letter}: ${currentQuestion.answers[letter]}
+                </span>
                 </label>
                 <br>`
                 )
             }
             output.push(
-                `<form id="myForm">
-                <br>
+                `
             <div class="question">${currentQuestion.question}</div>
             <br>
-            <div class="answers"> ${answers.join("")} </div>
-            </form>`
+            <div class="answers">
+            <form id="myForm"> ${answers.join("")} </form>
+            </div>
+            <br>
+            `
             );
         }
     )
-    quizContainer.innerHTML = `<form id = "myForm>${output.join('')}<br><input type="submit" id="submit">`;
+    quizContainer.innerHTML = `<form id = "myForm">${output.join('')}</form><br><input type="submit" id="submit">`;
 }
 displayQuestions();
 
-$(".buttons").click(function() {
-    
+$(".buttons").click(function () {
+
     if (userAnswers.length > 4) {
         alert("You've answered all the questions!")
     }
@@ -118,17 +123,17 @@ function scoreQuiz() {
     clearTimeout(timerId);
     userAnswers.forEach(
         (e, index) => {
-        if (e === questions[index].correctAnswer) {
-            rightAnswers++;
-            
-        }
-        else if (e != questions[index].correctAnswer) {
-            wrongAnswers++;
-        }
-        else if (e === "") {
-            unAnswered++;
-        }
-    })
+            if (e === questions[index].correctAnswer) {
+                rightAnswers++;
+
+            }
+            else if (e != questions[index].correctAnswer) {
+                wrongAnswers++;
+            }
+            else if (e === "") {
+                unAnswered++;
+            }
+        })
     console.log(wrongAnswers);
     console.log(rightAnswers);
     $(".timer").empty();
@@ -136,9 +141,13 @@ function scoreQuiz() {
     <div class = "wins">Right Answers: ${rightAnswers}</div>
     <div class = "losses">Wrong Answers: ${wrongAnswers}</div>
     <div class = "losses">Unanswered: ${unAnswered}</div>
+    <br>
+    <input type="reset" id="reset">
     `);
-    
+};
 
-}
+$("#reset").click(function () {
+    displayQuestions();
 
+})
 
