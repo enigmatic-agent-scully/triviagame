@@ -157,15 +157,6 @@ var game = {
   }
 };
 
-$('.buttons').click(function() {
-  if (userAnswers.length > 4) {
-    alert("You've answered all the questions!");
-  } else {
-    userAnswers.push($(this).val());
-    console.log(userAnswers);
-  }
-});
-
 $(document).on('click', '#start', function() {
   console.log(game);
   game.start();
@@ -176,5 +167,5 @@ $(document).on('click', '#submit', function() {
 });
 
 $(document).on('click', '#reset', function() {
-  location.reload();
+  game.start();
 });
