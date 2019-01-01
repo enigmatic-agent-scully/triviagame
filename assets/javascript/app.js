@@ -51,24 +51,19 @@ const questions = [
 const quizContainer = $('#quiz');
 const submitButton = $('#submit');
 const timerElem = $('.timer');
-var userAnswers = [];
-var rightAnswers;
-var wrongAnswers;
-var unAnswered;
 var timeLeft;
 var timer;
 
 var game = {
   rightAnswers: 0,
   wrongAnswers: 0,
-  timeLeft: 180,
+  timeLeft: 18,
 
   countdown: () => {
-    timeLeft--;
-    timerElem.html(`You have ${game.counter} seconds remaining`);
-    if (game.counter === 0) {
+    game.timeLeft--;
+    timerElem.html(`You have ${game.timeLeft} seconds remaining`);
+    if (game.timeLeft === 0) {
       console.log('Time up!');
-      console.log(questions[i].answers);
       game.done();
     }
   },
@@ -104,53 +99,58 @@ var game = {
     );
   },
   done: function() {
-    clearTimeout(timer);
-
     $.each($(`input[name='question0']:checked`), function() {
+      console.log($(this).val());
       if ($(this).val() === questions[0].correctAnswer) {
-        rightAnswers++;
+        game.rightAnswers++;
       } else {
-        wrongAnswers++;
+        game.wrongAnswers++;
       }
     });
     $.each($(`input[name='question1']:checked`), function() {
+      console.log($(this).val());
       if ($(this).val() === questions[1].correctAnswer) {
-        rightAnswers++;
+        game.rightAnswers++;
       } else {
-        wrongAnswers++;
+        game.wrongAnswers++;
       }
     });
     $.each($(`input[name='question2']:checked`), function() {
+      console.log($(this).val());
       if ($(this).val() === questions[2].correctAnswer) {
-        rightAnswers++;
+        game.rightAnswers++;
       } else {
-        wrongAnswers++;
+        game.wrongAnswers++;
       }
     });
     $.each($(`input[name='question3']:checked`), function() {
+      console.log($(this).val());
       if ($(this).val() === questions[3].correctAnswer) {
-        rightAnswers++;
+        game.rightAnswers++;
       } else {
-        wrongAnswers++;
+        game.wrongAnswers++;
       }
     });
     $.each($(`input[name='question4']:checked`), function() {
+      console.log($(this).val());
       if ($(this).val() === questions[4].correctAnswer) {
-        rightAnswers++;
+        game.rightAnswers++;
       } else {
-        wrongAnswers++;
+        game.wrongAnswers++;
       }
     });
 
-    console.log(this.done);
     this.result();
   },
   result: function() {
+    clearInterval(timer);
+    game.timeLeft = 180;
     $('.timer').empty();
     $('#quiz').html(`
-      <div class = "wins">Right Answers: ${rightAnswers}</div>
-      <div class = "losses">Wrong Answers: ${wrongAnswers}</div>
-      <div class = "unanswered">Unanswered: ${unAnswered}</div>
+      <div class = "wins">Right Answers: ${game.rightAnswers}</div>
+      <div class = "losses">Wrong Answers: ${game.wrongAnswers}</div>
+      <div class = "unanswered">Unanswered: ${questions.length -
+        (game.wrongAnswers + game.rightAnswers)} </div>
       <br>
       <input type="reset" id="again">
       `);
@@ -158,7 +158,6 @@ var game = {
 };
 
 $(document).on('click', '#start', function() {
-  console.log(game);
   game.start();
 });
 
@@ -166,6 +165,6 @@ $(document).on('click', '#submit', function() {
   game.done();
 });
 
-$(document).on('click', '#reset', function() {
+$(document).on('click', '#again', function() {
   game.start();
 });
