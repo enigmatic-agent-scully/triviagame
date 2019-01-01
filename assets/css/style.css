@@ -1,28 +1,40 @@
 @font-face {
-    font-family: xfiles;
-    src: url(x-files-webfont.woff2);
-    
+  font-family: xfiles;
+  src: url(x-files-webfont.woff2);
 }
 
 h1 {
-    font-family: xfiles;
-    text-align: center;
-    text-shadow: 3em;
+  font-family: xfiles;
+
+  align-content: center;
+  text-shadow: 3em;
 }
 
 .timer {
-    text-align: center;
-    margin: 0px 0px 20px 0px;
-    font-family: xfiles;
+  text-align: center;
+  margin: 0px 0px 20px 0px;
+  font-family: xfiles;
 }
 
 .main-box {
-    border: solid 1px black;
-    background-color: black;
-    color: white;
-    font-family: monospace;
+  border: solid 1px black;
+  background-color: black;
+  color: white;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-family: monospace;
 }
+
+#quiz {
+  text-align: left;
+}
+
 .buttons {
-    opacity: 100;
-    color: white;
+  opacity: 100;
+  color: white;
+}
+#start {
+  align-items: center;
 }
